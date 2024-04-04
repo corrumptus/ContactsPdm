@@ -1,4 +1,4 @@
-package lazarini.lucas.contactspdm
+package lazarini.lucas.contactspdm.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
