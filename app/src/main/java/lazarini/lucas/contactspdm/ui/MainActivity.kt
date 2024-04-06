@@ -51,10 +51,6 @@ class MainActivity : AppCompatActivity() {
                         return@let
                     }
 
-                    it.apply {
-                        id = if (contactList.isEmpty()) 1 else contactList.lastIndex+1
-                    }
-
                     contactList.add(it)
 
                     listAdapter.notifyDataSetChanged()
@@ -74,10 +70,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Intent(this, ContactActivity::class.java).also {
+            it.putExtra(CREATE_CONTACT, Contact(id = getNextId()))
             carl.launch(it)
         }
 
         return true
+    }
+
+    private fun getNextId(): Int {
+        if (contactList.isEmpty())
+            return 1
+        return contactList.last().id+1
     }
 
     private fun isContactValid(contact: Contact): Boolean {
