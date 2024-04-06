@@ -29,13 +29,14 @@ class ContactActivity : AppCompatActivity() {
             val resultadoIntent = Intent()
 
             resultadoIntent.putExtra(CREATE_CONTACT,
-                Contact(
-                    name = name,
-                    address = address,
-                    phone = phone,
-                    email = email
-                )
+                intent.getParcelableExtra<Contact>(CREATE_CONTACT)?.apply {
+                    this.name = name
+                    this.address = address
+                    this.phone = phone
+                    this.email = email
+                }
             )
+
             setResult(RESULT_OK, resultadoIntent)
             finish()
         }
