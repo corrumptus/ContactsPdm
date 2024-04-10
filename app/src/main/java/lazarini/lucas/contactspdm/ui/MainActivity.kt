@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import lazarini.lucas.contactspdm.R
+import lazarini.lucas.contactspdm.adapter.ContactAdapter
 import lazarini.lucas.contactspdm.databinding.ActivityMainBinding
 import lazarini.lucas.contactspdm.model.Contact
 import lazarini.lucas.contactspdm.utils.IntentMapper.CREATE_CONTACT
@@ -25,8 +26,12 @@ class MainActivity : AppCompatActivity() {
     private val contactList: MutableList<Contact> = mutableListOf()
 
     // ADAPTER
-    private val listAdapter: ArrayAdapter<Contact> by lazy {
-        ArrayAdapter(this, android.R.layout.simple_list_item_1, contactList)
+//    private val listAdapter: ArrayAdapter<Contact> by lazy {
+//        ArrayAdapter(this, android.R.layout.simple_list_item_1, contactList)
+//    }
+
+    private val listAdapter: ContactAdapter by lazy {
+        ContactAdapter(this, contactList)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        fillList()
+        fillList()
 
         amb.contactsLv.adapter = listAdapter
     }
@@ -90,17 +95,17 @@ class MainActivity : AppCompatActivity() {
             contact.email.isNotBlank()
     }
 
-//    private fun fillList() {
-//        for (i in 1..50) {
-//            contactList.add(
-//                Contact(
-//                    i,
-//                    "name $i",
-//                    "address $i",
-//                    "phone $i",
-//                    "email $i"
-//                )
-//            )
-//        }
-//    }
+    private fun fillList() {
+        for (i in 1..50) {
+            contactList.add(
+                Contact(
+                    i,
+                    "name $i",
+                    "address $i",
+                    "phone $i",
+                    "email $i"
+                )
+            )
+        }
+    }
 }
