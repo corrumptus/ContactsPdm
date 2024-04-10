@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private lateinit var carl: ActivityResultLauncher<Intent>
+    private lateinit var contactActivityResultLauncher: ActivityResultLauncher<Intent>
 
     // DATA SOURCE
     private val contactList: MutableList<Contact> = mutableListOf()
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(this.toolbar)
         }
 
-        carl = registerForActivityResult(
+        contactActivityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Intent(this, ContactActivity::class.java).also {
             it.putExtra(CREATE_CONTACT, Contact(id = getNextId()))
-            carl.launch(it)
+            contactActivityResultLauncher.launch(it)
         }
 
         return true
