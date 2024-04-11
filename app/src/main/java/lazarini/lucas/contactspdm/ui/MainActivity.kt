@@ -1,6 +1,7 @@
 package lazarini.lucas.contactspdm.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,13 +14,18 @@ import lazarini.lucas.contactspdm.adapter.ContactAdapter
 import lazarini.lucas.contactspdm.databinding.ActivityMainBinding
 import lazarini.lucas.contactspdm.model.Contact
 import lazarini.lucas.contactspdm.utils.IntentMapper.CREATE_CONTACT
+import lazarini.lucas.contactspdm.utils.IntentMapper.EDIT_CONTACT
 
 class MainActivity : AppCompatActivity() {
     private val amb: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private lateinit var contactActivityResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var newContactActivityResultLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var editContactActivityResultLauncher: ActivityResultLauncher<Intent>
+
+    private var index: Int = -1
 
     // DATA SOURCE
     private val contactList: MutableList<Contact> = mutableListOf()
@@ -41,24 +47,54 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(this.toolbar)
         }
 
-        contactActivityResultLauncher = registerForActivityResult(
+        newContactActivityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                result.data?.getParcelableExtra<Contact>(CREATE_CONTACT)?.let {
-                    if (!isContactValid(it)) {
-                        Toast.makeText(
-                            this,
-                            "Invalid contact. All the attributes cannot be blank",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        return@let
-                    }
+            if (result.resultCode != RESULT_OK)
+                return@registerForActivityResult
 
+            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                result.data?.getParcelableExtra(CREATE_CONTACT, Contact::class.java)
+            else
+                result.data?.getParcelableExtra<Contact>(CREATE_CONTACT)
+            )?.let {
+                if (!isContactValid(it)) {
+                    Toast.makeText(
+                        this,
+                        "Invalid contact. All the attributes cannot be blank",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
                     contactList.add(it)
 
                     listAdapter.notifyDataSetChanged()
                 }
+            }
+        }
+
+        editContactActivityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode != RESULT_OK)
+                return@registerForActivityResult
+
+            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                result.data?.getParcelableExtra(EDIT_CONTACT, Contact::class.java)
+            else
+                result.data?.getParcelableExtra<Contact>(EDIT_CONTACT)
+            )?.let {
+                if (!isContactValid(it)) {
+                    Toast.makeText(
+                        this,
+                        "Invalid contact. All the attributes cannot be blank",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@let
+                }
+
+                contactList[index] = it
+
+                listAdapter.notifyDataSetChanged()
             }
         }
 
@@ -75,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Intent(this, ContactActivity::class.java).also {
             it.putExtra(CREATE_CONTACT, Contact(id = getNextId()))
-            contactActivityResultLauncher.launch(it)
+            newContactActivityResultLauncher.launch(it)
         }
 
         return true
