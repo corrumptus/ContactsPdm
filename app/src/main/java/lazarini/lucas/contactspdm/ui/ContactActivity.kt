@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import lazarini.lucas.contactspdm.databinding.ActivityContactBinding
 import lazarini.lucas.contactspdm.model.Contact
 import lazarini.lucas.contactspdm.utils.IntentMapper.CREATE_CONTACT
+import lazarini.lucas.contactspdm.utils.IntentMapper.EDIT_CONTACT
 
 class ContactActivity : AppCompatActivity() {
     private val acb: ActivityContactBinding by lazy {
@@ -26,18 +27,28 @@ class ContactActivity : AppCompatActivity() {
             val phone = acb.phoneEt.text.toString()
             val email = acb.emailEt.text.toString()
 
-            val resultadoIntent = Intent()
+            val resultIntent = Intent()
 
-            resultadoIntent.putExtra(CREATE_CONTACT,
-                intent.getParcelableExtra<Contact>(CREATE_CONTACT)?.apply {
-                    this.name = name
-                    this.address = address
-                    this.phone = phone
-                    this.email = email
-                }
-            )
+            if (intent.getParcelableExtra<Contact>(CREATE_CONTACT) != null)
+                resultIntent.putExtra(CREATE_CONTACT,
+                    intent.getParcelableExtra<Contact>(CREATE_CONTACT)?.apply {
+                        this.name = name
+                        this.address = address
+                        this.phone = phone
+                        this.email = email
+                    }
+                )
+            else
+                resultIntent.putExtra(EDIT_CONTACT,
+                    intent.getParcelableExtra<Contact>(EDIT_CONTACT)?.apply {
+                        this.name = name
+                        this.address = address
+                        this.phone = phone
+                        this.email = email
+                    }
+                )
 
-            setResult(RESULT_OK, resultadoIntent)
+            setResult(RESULT_OK, resultIntent)
             finish()
         }
     }
