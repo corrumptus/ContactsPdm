@@ -156,6 +156,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        unregisterForContextMenu(amb.contactsLv)
+    }
+
     private fun getNextId(): Int {
         if (contactList.isEmpty())
             return 1
