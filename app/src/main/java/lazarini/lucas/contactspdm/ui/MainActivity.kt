@@ -3,8 +3,10 @@ package lazarini.lucas.contactspdm.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -101,6 +103,8 @@ class MainActivity : AppCompatActivity() {
         fillList()
 
         amb.contactsLv.adapter = listAdapter
+
+        registerForContextMenu(amb.contactsLv)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
@@ -115,6 +119,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        menuInflater.inflate(R.menu.context_menu_main, menu)
     }
 
     private fun getNextId(): Int {
