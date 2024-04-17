@@ -18,6 +18,7 @@ import lazarini.lucas.contactspdm.databinding.ActivityMainBinding
 import lazarini.lucas.contactspdm.model.Contact
 import lazarini.lucas.contactspdm.utils.IntentMapper.CREATE_CONTACT
 import lazarini.lucas.contactspdm.utils.IntentMapper.EDIT_CONTACT
+import lazarini.lucas.contactspdm.utils.IntentMapper.VIEW_CONTACT
 
 class MainActivity : AppCompatActivity() {
     private val amb: ActivityMainBinding by lazy {
@@ -106,6 +107,14 @@ class MainActivity : AppCompatActivity() {
         amb.contactsLv.adapter = listAdapter
 
         registerForContextMenu(amb.contactsLv)
+
+        amb.contactsLv.setOnItemClickListener { _, _, position, _ ->
+            Intent(this, ContactActivity::class.java).apply {
+                putExtra(VIEW_CONTACT, contactList[position])
+
+                startActivity(this)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
