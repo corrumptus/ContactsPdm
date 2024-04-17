@@ -55,7 +55,10 @@ class ContactActivity : AppCompatActivity() {
         }
 
         intent.getParcelableExtra<Contact>(VIEW_CONTACT)?.apply {
-            acb.enviaBt.visibility = View.GONE
+            acb.enviaBt.text = "Voltar"
+            acb.enviaBt.setOnClickListener {
+                finish()
+            }
 
             acb.nameEt.setText(this.name)
             acb.nameEt.isEnabled = false
