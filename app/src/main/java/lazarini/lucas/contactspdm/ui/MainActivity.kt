@@ -7,6 +7,7 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -127,6 +128,32 @@ class MainActivity : AppCompatActivity() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         menuInflater.inflate(R.menu.context_menu_main, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val index = (item.menuInfo as AdapterContextMenuInfo).position
+
+        return when(item.itemId) {
+            R.id.editContactMi -> {
+                this.index = index
+
+                Intent(this, ContactActivity::class.java).apply {
+                    putExtra(EDIT_CONTACT, contactList[index])
+
+                    editContactActivityResultLauncher.launch(this)
+                }
+
+                true
+            }
+            R.id.removeContactMi -> {
+                contactList.removeAt(index)
+
+                listAdapter.notifyDataSetChanged()
+
+                true
+            }
+            else -> { false }
+        }
     }
 
     private fun getNextId(): Int {
