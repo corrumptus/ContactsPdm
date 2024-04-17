@@ -51,5 +51,13 @@ class ContactActivity : AppCompatActivity() {
             setResult(RESULT_OK, resultIntent)
             finish()
         }
+
+        intent.getParcelableExtra<Contact>(EDIT_CONTACT)?.apply {
+            acb.enviaBt.text = "Editar"
+            acb.nameEt.setText(this.name)
+            acb.addressEt.setText(this.address)
+            acb.phoneEt.setText(this.phone)
+            acb.emailEt.setText(this.email)
+        }
     }
 }
