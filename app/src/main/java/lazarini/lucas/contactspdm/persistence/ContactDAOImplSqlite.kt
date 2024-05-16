@@ -6,8 +6,12 @@ import android.database.sqlite.SQLiteDatabase
 import lazarini.lucas.contactspdm.model.Contact
 
 class ContactDAOImplSqlite(context: Context): ContactDAO {
+    companion object {
+        const val CONTACT_DATABASE_FILE = "contacts"
+    }
+
     private val contactSqliteDatabase: SQLiteDatabase = context.openOrCreateDatabase(
-        "contacts",
+        CONTACT_DATABASE_FILE,
         MODE_PRIVATE,
         null
     )
