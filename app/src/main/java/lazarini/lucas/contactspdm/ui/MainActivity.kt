@@ -168,6 +168,8 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.removeContactMi -> {
+                contactController.removeContact(contactList[index].id)
+
                 contactList.removeAt(index)
 
                 listAdapter.notifyDataSetChanged()
