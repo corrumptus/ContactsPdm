@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import lazarini.lucas.contactspdm.R
 import lazarini.lucas.contactspdm.adapter.ContactAdapter
+import lazarini.lucas.contactspdm.controller.ContactController
 import lazarini.lucas.contactspdm.databinding.ActivityMainBinding
 import lazarini.lucas.contactspdm.model.Contact
 import lazarini.lucas.contactspdm.utils.IntentMapper.CREATE_CONTACT
@@ -41,6 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     private val listAdapter: ContactAdapter by lazy {
         ContactAdapter(this, contactList)
+    }
+
+    private val contactController: ContactController by lazy {
+        ContactController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
