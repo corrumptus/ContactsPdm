@@ -53,9 +53,12 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
         TODO("Not yet implemented")
     }
 
-    override fun updateContact(contact: Contact): Int {
-        TODO("Not yet implemented")
-    }
+    override fun updateContact(contact: Contact): Int = contactSqliteDatabase.update(
+        CONTACT_TABLE,
+        contact.toContentValues(),
+        "$ID_COLUMN = ?",
+        arrayOf(contact.id.toString())
+    )
 
     override fun deleteContact(id: Int): Int {
         TODO("Not yet implemented")
