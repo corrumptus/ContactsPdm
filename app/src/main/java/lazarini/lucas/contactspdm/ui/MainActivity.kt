@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fillList()
+//        fillList()
 
         amb.contactsLv.adapter = listAdapter
 
@@ -195,17 +195,17 @@ class MainActivity : AppCompatActivity() {
             contact.email.isNotBlank()
     }
 
-    private fun fillList() {
-        for (i in 1..50) {
-            contactList.add(
-                Contact(
-                    i,
-                    "name $i",
-                    "address $i",
-                    "phone $i",
-                    "email $i"
-                )
-            )
-        }
-    }
+//    private fun fillList() {
+//        for (i in 1..50) {
+//            contactList.add(
+//                Contact(
+//                    i,
+//                    "name $i",
+//                    "address $i",
+//                    "phone $i",
+//                    "email $i"
+//                )
+//            )
+//        }
+//    }
 }
