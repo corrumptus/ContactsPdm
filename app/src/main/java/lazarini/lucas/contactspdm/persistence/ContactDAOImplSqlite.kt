@@ -43,9 +43,11 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
         }
     }
 
-    override fun createContact(contact: Contact): Int {
-        TODO("Not yet implemented")
-    }
+    override fun createContact(contact: Contact): Int = contactSqliteDatabase.insert(
+        CONTACT_TABLE,
+        null,
+        contact.toContentValues()
+    ).toInt()
 
     override fun retrieveContacts(): MutableList<Contact> {
         TODO("Not yet implemented")
