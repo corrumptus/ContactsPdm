@@ -74,6 +74,10 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
+                    val id = contactController.insertContact(it)
+
+                    it.id = id
+
                     contactList.add(it)
 
                     listAdapter.notifyDataSetChanged()
@@ -102,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 contactList[index] = it
+                contactController.editContact(it)
 
                 listAdapter.notifyDataSetChanged()
             }
