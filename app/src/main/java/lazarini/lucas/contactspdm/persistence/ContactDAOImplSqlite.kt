@@ -28,6 +28,9 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
                     "$ADDRESS_COLUMN TEXT NOT NULL," +
                     "$PHONE_COLUMN TEXT NOT NULL," +
                     "$EMAIL_COLUMN TEXT NOT NULL);"
+
+        private const val SELECT_ALL_CONTACTS =
+            "SELECT * FROM $CONTACT_TABLE ORDER BY $NAME_COLUMN"
     }
 
     private val contactSqliteDatabase: SQLiteDatabase = context.openOrCreateDatabase(
@@ -51,7 +54,18 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
     ).toInt()
 
     override fun retrieveContacts(): MutableList<Contact> {
-        TODO("Not yet implemented")
+        val contactList = mutableListOf<Contact>()
+
+        val cursor = contactSqliteDatabase.rawQuery(
+                SELECT_ALL_CONTACTS,
+        null)
+
+        while (cursor.moveToNext()) {
+            contactList.add(cursor.rowToContact())
+        }
+
+        cursor.close()
+        return contactList
     }
 
     override fun updateContact(contact: Contact): Int = contactSqliteDatabase.update(
