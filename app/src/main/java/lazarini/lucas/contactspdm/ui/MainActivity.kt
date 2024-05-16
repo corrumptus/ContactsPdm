@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
     private var index: Int = -1
 
     // DATA SOURCE
-    private val contactList: MutableList<Contact> = mutableListOf()
+    private val contactList: MutableList<Contact> by lazy {
+        contactController.getContacts()
+    }
 
     // ADAPTER
 //    private val listAdapter: ArrayAdapter<Contact> by lazy {
