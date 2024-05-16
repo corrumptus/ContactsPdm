@@ -3,6 +3,7 @@ package lazarini.lucas.contactspdm.persistence
 import android.content.ContentValues
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import lazarini.lucas.contactspdm.R
@@ -21,12 +22,12 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
         private const val EMAIL_COLUMN = "email"
 
         private const val CREATE_CONTACT_TABLE_STATEMENT =
-            "CREATE TABLE IF NOT EXISTS $CONTACT_TABLE ( " +
+            "CREATE TABLE IF NOT EXISTS $CONTACT_TABLE(" +
                     "$ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "$NAME_COLUMN TEXT NOT NULL," +
                     "$ADDRESS_COLUMN TEXT NOT NULL," +
                     "$PHONE_COLUMN TEXT NOT NULL," +
-                    "$EMAIL_COLUMN TEXT NOT NULL); "
+                    "$EMAIL_COLUMN TEXT NOT NULL);"
     }
 
     private val contactSqliteDatabase: SQLiteDatabase = context.openOrCreateDatabase(
@@ -70,4 +71,12 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
         put(PHONE_COLUMN, phone)
         put(EMAIL_COLUMN, email)
     }
+
+    private fun Cursor.rowToContact() = Contact(
+        getInt(getColumnIndexOrThrow(ID_COLUMN)),
+        getString(getColumnIndexOrThrow(NAME_COLUMN)),
+        getString(getColumnIndexOrThrow(ADDRESS_COLUMN)),
+        getString(getColumnIndexOrThrow(PHONE_COLUMN)),
+        getString(getColumnIndexOrThrow(EMAIL_COLUMN))
+    )
 }
