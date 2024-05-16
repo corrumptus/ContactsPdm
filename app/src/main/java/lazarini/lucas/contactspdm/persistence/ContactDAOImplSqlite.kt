@@ -75,9 +75,11 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
         arrayOf(contact.id.toString())
     )
 
-    override fun deleteContact(id: Int): Int {
-        TODO("Not yet implemented")
-    }
+    override fun deleteContact(id: Int): Int = contactSqliteDatabase.delete(
+        CONTACT_TABLE,
+        "$ID_COLUMN = ?",
+        arrayOf(id.toString())
+    )
 
     private fun Contact.toContentValues() = ContentValues().apply {
         put(NAME_COLUMN, name)
