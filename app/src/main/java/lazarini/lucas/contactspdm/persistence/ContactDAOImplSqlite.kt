@@ -1,5 +1,6 @@
 package lazarini.lucas.contactspdm.persistence
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.database.sqlite.SQLiteDatabase
@@ -56,5 +57,12 @@ class ContactDAOImplSqlite(context: Context): ContactDAO {
 
     override fun deleteContact(id: Int): Int {
         TODO("Not yet implemented")
+    }
+
+    private fun Contact.toContentValues() = ContentValues().apply {
+        put(NAME_COLUMN, name)
+        put(ADDRESS_COLUMN, address)
+        put(PHONE_COLUMN, phone)
+        put(EMAIL_COLUMN, email)
     }
 }
