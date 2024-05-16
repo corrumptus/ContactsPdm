@@ -73,15 +73,16 @@ class MainActivity : AppCompatActivity() {
                         "Invalid contact. All the attributes cannot be blank",
                         Toast.LENGTH_LONG
                     ).show()
-                } else {
-                    val id = contactController.insertContact(it)
-
-                    it.id = id
-
-                    contactList.add(it)
-
-                    listAdapter.notifyDataSetChanged()
+                    return@let
                 }
+
+                val id = contactController.insertContact(it)
+
+                it.id = id
+
+                contactList.add(it)
+
+                listAdapter.notifyDataSetChanged()
             }
         }
 
